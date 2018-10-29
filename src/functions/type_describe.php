@@ -6,22 +6,10 @@ namespace Improved;
  * Get the type of a variable in a descriptive way.
  *
  * @param mixed $var
+ * @param bool  $detailed  Describe both the value and type of the variable
  * @return string
  */
-function type_describe($var): string
+function type_describe($var, bool $detailed = false): string
 {
-    $type = gettype($var);
-
-    switch ($type) {
-        case 'double':
-            return 'float';
-        case 'object':
-            return get_class($var) . " object";
-        case 'resource':
-            return get_resource_type($var) . " resource";
-        case 'unknown type':
-            return "resource (closed)"; // BC PHP 7.1
-        default:
-            return $type;
-    }
+    return $detailed ? Internal\type_describe_value($var) : Internal\type_describe_type($var);
 }
