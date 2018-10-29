@@ -21,7 +21,7 @@ provided by PHP natively.
 
 * [`type_is(mixed $var, string|string[] $type)`](#type_is)
 * [`type_check(mixed $var, string|string[] $type, Throwable $throwable = null)`](#type_check)
-* [`type_coerce(mixed $var, string|string[] $type, Throwable $throwable = null)`](#type_coerce)
+* [`type_cast(mixed $var, string|string[] $type, Throwable $throwable = null)`](#type_cast)
 * [`type_describe(mixed $var)`](#type_describe)
 
 ## Reference
@@ -68,11 +68,11 @@ $number = i\type_check(get_distance(), ['int', 'float']);
 $foor = i\type_check(do_something(), Foo::class, new UnexpectedException('Wanted %2$s, not %1$s'));
 ```
 
-### type_coerce
+### type_cast
 
-    mixed type_coerce(mixed $var, string $type, Throwable $throwable = null)
+    mixed type_cast(mixed $var, string $type, Throwable $throwable = null)
 
-Check the variable has a specific type or can be coerced to that type, otherwise throw a `TypeError` or exception.
+Check the variable has a specific type or can be castd to that type, otherwise throw a `TypeError` or exception.
 
 This function is similar to `type_check`, with the difference that is will cast the value in some cases
 

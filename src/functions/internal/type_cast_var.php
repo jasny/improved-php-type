@@ -11,7 +11,7 @@ namespace Improved\Internal;
  * @param string $type
  * @return mixed
  */
-function type_coerce_var($var, $type)
+function type_cast_var($var, $type)
 {
     $aliases = [
         'boolean' => 'bool',
@@ -26,7 +26,7 @@ function type_coerce_var($var, $type)
     $type = $aliases[strtolower(ltrim($type, '/'))] ?? ltrim($type, '/');
     $varType = $aliases[gettype($var)] ?? gettype($var);
 
-    $fn = __NAMESPACE__ . "\\type_coerce_{$varType}_{$type}";
+    $fn = __NAMESPACE__ . "\\type_cast_{$varType}_{$type}";
 
     return is_callable($fn) ? $fn($var) : null;
 }
@@ -34,7 +34,7 @@ function type_coerce_var($var, $type)
 /**
  * @internal
  */
-function type_coerce_string_int(string $var): ?int
+function type_cast_string_int(string $var): ?int
 {
     return is_numeric($var) && ($var + 0) <= PHP_INT_MAX ? (int)$var : null;
 }
@@ -42,7 +42,7 @@ function type_coerce_string_int(string $var): ?int
 /**
  * @internal
  */
-function type_coerce_string_float(string $var): ?float
+function type_cast_string_float(string $var): ?float
 {
     return is_numeric($var) ? (float)$var : null;
 }
@@ -50,7 +50,7 @@ function type_coerce_string_float(string $var): ?float
 /**
  * @internal
  */
-function type_coerce_int_bool(int $var): ?bool
+function type_cast_int_bool(int $var): ?bool
 {
     return $var === 0 || $var === 1 ? (bool)$var : null;
 }
@@ -58,7 +58,7 @@ function type_coerce_int_bool(int $var): ?bool
 /**
  * @internal
  */
-function type_coerce_bool_int(bool $var): int
+function type_cast_bool_int(bool $var): int
 {
     return (int)$var;
 }
@@ -66,7 +66,7 @@ function type_coerce_bool_int(bool $var): int
 /**
  * @internal
  */
-function type_coerce_float_int(float $var): ?int
+function type_cast_float_int(float $var): ?int
 {
     return $var <= PHP_INT_MAX ? (int)$var : null;
 }
@@ -74,7 +74,7 @@ function type_coerce_float_int(float $var): ?int
 /**
  * @internal
  */
-function type_coerce_int_float(int $var): float
+function type_cast_int_float(int $var): float
 {
     return (float)$var;
 }
@@ -82,7 +82,7 @@ function type_coerce_int_float(int $var): float
 /**
  * @internal
  */
-function type_coerce_int_string(int $var): string
+function type_cast_int_string(int $var): string
 {
     return (string)$var;
 }
@@ -90,7 +90,7 @@ function type_coerce_int_string(int $var): string
 /**
  * @internal
  */
-function type_coerce_float_string(float $var): string
+function type_cast_float_string(float $var): string
 {
     return (string)$var;
 }
@@ -100,9 +100,9 @@ function type_coerce_float_string(float $var): string
  * @param object $var
  * @return string|null
  */
-function type_coerce_object_string($var): ?string
+function type_cast_object_string($var): ?string
 {
-    return is_callable([$var, '__toString']) ? (string)$var : null;
+    return method_exists($var, '__toString') ? (string)$var : null;
 }
 
 /**
@@ -110,7 +110,7 @@ function type_coerce_object_string($var): ?string
  * @param object $var
  * @return array|null
  */
-function type_coerce_object_array($var): ?array
+function type_cast_object_array($var): ?array
 {
     return $var instanceof \stdClass ? get_object_vars($var) : null;
 }
@@ -118,7 +118,7 @@ function type_coerce_object_array($var): ?array
 /**
  * @internal
  */
-function type_coerce_array_object(array $var): ?\stdClass
+function type_cast_array_object(array $var): ?\stdClass
 {
     return array_filter(array_keys($var), 'is_int') === [] ? (object)$var : null;
 }

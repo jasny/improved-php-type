@@ -24,10 +24,10 @@
         "files": [
             "src/functions-const.php",
             "src/functions/internal/type_check_throw.php",
-            "src/functions/internal/type_coerce_var.php",
+            "src/functions/internal/type_cast_var.php",
             "src/functions/internal/type_is_internal_func.php",
             "src/functions/type_check.php",
-            "src/functions/type_coerce.php",
+            "src/functions/type_cast.php",
             "src/functions/type_describe.php",
             "src/functions/type_is.php"
         ]

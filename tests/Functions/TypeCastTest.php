@@ -6,20 +6,20 @@ use Improved as i;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Improved\type_coerce
- * @covers Improved\Internal\type_coerce_var
+ * @covers Improved\type_cast
+ * @covers Improved\Internal\type_cast_var
  * @covers Improved\Internal\type_check_throw
- * @covers Improved\Internal\type_coerce_string_int
- * @covers Improved\Internal\type_coerce_string_float
- * @covers Improved\Internal\type_coerce_int_bool
- * @covers Improved\Internal\type_coerce_bool_int
- * @covers Improved\Internal\type_coerce_float_int
- * @covers Improved\Internal\type_coerce_int_float
- * @covers Improved\Internal\type_coerce_int_string
- * @covers Improved\Internal\type_coerce_float_string
- * @covers Improved\Internal\type_coerce_object_string
- * @covers Improved\Internal\type_coerce_object_array
- * @covers Improved\Internal\type_coerce_array_object
+ * @covers Improved\Internal\type_cast_string_int
+ * @covers Improved\Internal\type_cast_string_float
+ * @covers Improved\Internal\type_cast_int_bool
+ * @covers Improved\Internal\type_cast_bool_int
+ * @covers Improved\Internal\type_cast_float_int
+ * @covers Improved\Internal\type_cast_int_float
+ * @covers Improved\Internal\type_cast_int_string
+ * @covers Improved\Internal\type_cast_float_string
+ * @covers Improved\Internal\type_cast_object_string
+ * @covers Improved\Internal\type_cast_object_array
+ * @covers Improved\Internal\type_cast_array_object
  */
 class TypeCoerceTest extends TestCase
 {
@@ -46,12 +46,12 @@ class TypeCoerceTest extends TestCase
      */
     public function testValid($var, $type)
     {
-        $ret = i\type_coerce($var, $type);
+        $ret = i\type_cast($var, $type);
         $this->assertEquals($var, $ret);
     }
 
 
-    public function coerceProvider()
+    public function castProvider()
     {
         $object = new class() {
             public function __toString(): string
@@ -90,11 +90,11 @@ class TypeCoerceTest extends TestCase
     }
 
     /**
-     * @dataProvider coerceProvider
+     * @dataProvider castProvider
      */
     public function testCoerce($var, $type, $expected)
     {
-        $ret = i\type_coerce($var, $type);
+        $ret = i\type_cast($var, $type);
         $this->assertEquals($expected, $ret, gettype($var) . ':' . $type);
     }
 
@@ -123,13 +123,13 @@ class TypeCoerceTest extends TestCase
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage($error);
 
-        i\type_coerce($var, $type);
+        i\type_cast($var, $type);
     }
 
 
     public function testNoException()
     {
-        $ret = i\type_coerce(10, 'int', new \InvalidArgumentException("Lorem ipsum", 42));
+        $ret = i\type_cast(10, 'int', new \InvalidArgumentException("Lorem ipsum", 42));
 
         $this->assertSame(10, $ret);
     }
@@ -141,7 +141,7 @@ class TypeCoerceTest extends TestCase
      */
     public function testWithException()
     {
-        i\type_coerce('foo', 'int', new \InvalidArgumentException("Lorem ipsum", 42));
+        i\type_cast('foo', 'int', new \InvalidArgumentException("Lorem ipsum", 42));
     }
 
     /**
@@ -151,7 +151,7 @@ class TypeCoerceTest extends TestCase
      */
     public function testWithExceptionMessage()
     {
-        i\type_coerce('foo', 'int', new \InvalidArgumentException("Lorem ipsum %s black", 42));
+        i\type_cast('foo', 'int', new \InvalidArgumentException("Lorem ipsum %s black", 42));
     }
 
     /**
@@ -162,6 +162,6 @@ class TypeCoerceTest extends TestCase
     public function testWithExceptionMessageType()
     {
         $exception = new \InvalidArgumentException('Lorem %2$s ipsum %1$s black', 42);
-        i\type_coerce('foo', 'int', $exception);
+        i\type_cast('foo', 'int', $exception);
     }
 }
