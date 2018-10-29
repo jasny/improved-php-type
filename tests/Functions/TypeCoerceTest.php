@@ -9,6 +9,17 @@ use PHPUnit\Framework\TestCase;
  * @covers Improved\type_coerce
  * @covers Improved\Internal\type_coerce_var
  * @covers Improved\Internal\type_check_throw
+ * @covers Improved\Internal\type_coerce_string_int
+ * @covers Improved\Internal\type_coerce_string_float
+ * @covers Improved\Internal\type_coerce_int_bool
+ * @covers Improved\Internal\type_coerce_bool_int
+ * @covers Improved\Internal\type_coerce_float_int
+ * @covers Improved\Internal\type_coerce_int_float
+ * @covers Improved\Internal\type_coerce_int_string
+ * @covers Improved\Internal\type_coerce_float_string
+ * @covers Improved\Internal\type_coerce_object_string
+ * @covers Improved\Internal\type_coerce_object_array
+ * @covers Improved\Internal\type_coerce_array_object
  */
 class TypeCoerceTest extends TestCase
 {
