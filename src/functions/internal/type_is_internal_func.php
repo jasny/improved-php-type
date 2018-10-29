@@ -32,5 +32,7 @@ function type_is_internal_func(string $type): ?callable
         'string' => '',
     ];
 
-    return isset($functions[$type]) ? 'is_' . ($type === 'boolean' ? 'bool' : $type) : null;
+    $fn = isset($functions[$type]) ? 'is_' . ($type === 'boolean' ? 'bool' : $type) : null;
+
+    return isset($fn) && is_callable($fn) ? $fn : null;
 }

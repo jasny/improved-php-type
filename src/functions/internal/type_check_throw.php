@@ -18,8 +18,8 @@ function type_check_throw($var, $type, \Throwable $throwable = null): void
         throw $throwable;
     }
 
-    $typeDescs = array_map(function($type) {
-        return $type . (type_is_internal_func($type) || substr($type, -9) === ' resource' ? '' : ' object');
+    $typeDescs = array_map(function ($type) {
+        return $type . (type_is_internal_func($type) !== null || substr($type, -9) === ' resource' ? '' : ' object');
     }, is_scalar($type) ? [$type] : $type);
 
     $last = (string)array_pop($typeDescs);
