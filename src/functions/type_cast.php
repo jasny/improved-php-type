@@ -16,11 +16,11 @@ function type_cast($var, $type, \Throwable $throwable = null)
         return $var;
     }
 
-    $castd = Internal\type_cast_var($var, $type);
+    $casted = Internal\type_cast_var($var, $type);
 
-    if (!isset($castd)) {
+    if (!isset($casted)) {
         Internal\type_check_throw($var, $type, $throwable);
     }
 
-    return $castd;
+    return $casted;
 }

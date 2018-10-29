@@ -7,10 +7,10 @@ namespace Improved\Internal;
  *
  * @param mixed           $var
  * @param string|string[] $type
- * @param \Throwable      $throwable  Exception or Error
+ * @param \Throwable|null $throwable  Exception or Error
  * @throws \Throwable
  */
-function type_check_throw($var, $type, \Throwable $throwable = null): void
+function type_check_throw($var, $type, ?\Throwable $throwable = null): void
 {
     $throwable = $throwable ?? new \TypeError('Expected %2$s, %1$s given');
 

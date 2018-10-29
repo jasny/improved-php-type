@@ -72,7 +72,7 @@ $foor = i\type_check(do_something(), Foo::class, new UnexpectedException('Wanted
 
     mixed type_cast(mixed $var, string $type, Throwable $throwable = null)
 
-Check the variable has a specific type or can be castd to that type, otherwise throw a `TypeError` or exception.
+Check the variable has a specific type or can be casted to that type, otherwise throw a `TypeError` or exception.
 
 This function is similar to `type_check`, with the difference that is will cast the value in some cases
 
