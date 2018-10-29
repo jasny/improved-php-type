@@ -3,23 +3,23 @@
 namespace Improved\Internal;
 
 /**
+ * Return an error or exception for a failed type check.
  * @internal
  *
  * @param mixed           $var
  * @param string|string[] $type
- * @param \Throwable|null $throwable  Exception or Error
- * @throws \Throwable
+ * @param \Throwable      $throwable  Exception or Error
+ * @return \Throwable
  */
-function type_check_throw($var, $type, ?\Throwable $throwable = null): void
+function type_check_error($var, $type, \Throwable $throwable): \Throwable
 {
-    $throwable = $throwable ?? new \TypeError('Expected %2$s, %1$s given');
-
     if (strpos($throwable->getMessage(), '%') === false) {
-        throw $throwable;
+        return $throwable;
     }
 
     $typeDescs = array_map(function ($type) {
-        return $type . (type_is_internal_func($type) !== null || substr($type, -9) === ' resource' ? '' : ' object');
+        $prefix = (type_is_internal_func($type) !== null || substr($type, -9) === ' resource' ? '' : 'instance of ');
+        return $prefix . $type;
     }, is_scalar($type) ? [$type] : $type);
 
     $last = (string)array_pop($typeDescs);
@@ -29,5 +29,5 @@ function type_check_throw($var, $type, ?\Throwable $throwable = null): void
     $message = sprintf($throwable->getMessage(), \Improved\type_describe($var), $expected);
     $code = $throwable->getCode();
 
-    throw new $class($message, $code);
+    return new $class($message, $code);
 }

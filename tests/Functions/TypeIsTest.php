@@ -6,8 +6,8 @@ use Improved as i;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Improved\type_is
- * @covers Improved\Internal\type_is_internal_func
+ * @covers \Improved\type_is
+ * @covers \Improved\Internal\type_is_internal_func
  */
 class TypeIsTest extends TestCase
 {

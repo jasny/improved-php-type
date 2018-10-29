@@ -4,19 +4,20 @@ namespace Improved\Internal;
 
 /**
  * Describe the type of a variable only.
+ * @internal
  *
  * @param mixed $var
  * @return string
  */
 function type_describe_type($var): string
 {
-    $type = gettype($var);
+    $type = strtolower(gettype($var));
 
     switch ($type) {
         case 'double':
             return 'float';
         case 'object':
-            return get_class($var) . " object";
+            return "instance of " . get_class($var);
         case 'resource':
             return get_resource_type($var) . " resource";
         case 'unknown type':

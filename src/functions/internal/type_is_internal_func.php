@@ -11,6 +11,8 @@ namespace Improved\Internal;
  */
 function type_is_internal_func(string $type): ?callable
 {
+    // For some reason getting the string from an array makes it not evaluate as callable. Weird stuff in PHP 7.1.
+
     $functions = [
         'array' => '',
         'bool' => '',

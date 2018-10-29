@@ -6,8 +6,8 @@ use Improved as i;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Improved\type_check
- * @covers Improved\Internal\type_check_throw
+ * @covers \Improved\type_check
+ * @covers \Improved\Internal\type_check_error
  */
 class TypeCheckTest extends TestCase
 {
@@ -52,11 +52,11 @@ class TypeCheckTest extends TestCase
             [10, 'boolean', "Expected boolean, integer given"],
             ['foo', 'int', "Expected int, string given"],
             ['foo', ['int', 'boolean'], "Expected int or boolean, string given"],
-            [(object)[], 'Foo', "Expected Foo object, stdClass object given"],
+            [(object)[], 'Foo', "Expected instance of Foo, instance of stdClass given"],
             [$streamResource, 'string', "Expected string, stream resource given"],
             [$streamResource, 'gd resource', "Expected gd resource, stream resource given"],
             [$streamResource, ['int', 'gd resource'], "Expected int or gd resource, stream resource given"],
-            [$streamResource, 'stream', "Expected stream object, stream resource given"],
+            [$streamResource, 'stream', "Expected instance of stream, stream resource given"],
             [$closedResource, 'string', "Expected string, resource (closed) given"]
         ];
     }
@@ -81,7 +81,7 @@ class TypeCheckTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Lorem ipsum
      * @expectedExceptionCode 42
      */
@@ -91,7 +91,7 @@ class TypeCheckTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Lorem ipsum string black
      * @expectedExceptionCode 42
      */
@@ -101,7 +101,7 @@ class TypeCheckTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Lorem int ipsum string black
      * @expectedExceptionCode 42
      */

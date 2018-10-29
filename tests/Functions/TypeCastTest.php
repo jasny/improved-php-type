@@ -6,22 +6,22 @@ use Improved as i;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Improved\type_cast
- * @covers Improved\Internal\type_cast_var
- * @covers Improved\Internal\type_check_throw
- * @covers Improved\Internal\type_cast_string_int
- * @covers Improved\Internal\type_cast_string_float
- * @covers Improved\Internal\type_cast_int_bool
- * @covers Improved\Internal\type_cast_bool_int
- * @covers Improved\Internal\type_cast_float_int
- * @covers Improved\Internal\type_cast_int_float
- * @covers Improved\Internal\type_cast_int_string
- * @covers Improved\Internal\type_cast_float_string
- * @covers Improved\Internal\type_cast_object_string
- * @covers Improved\Internal\type_cast_object_array
- * @covers Improved\Internal\type_cast_array_object
+ * @covers \Improved\type_cast
+ * @covers \Improved\Internal\type_cast_var
+ * @covers \Improved\Internal\type_check_error
+ * @covers \Improved\Internal\type_cast_string_int
+ * @covers \Improved\Internal\type_cast_string_float
+ * @covers \Improved\Internal\type_cast_int_bool
+ * @covers \Improved\Internal\type_cast_bool_int
+ * @covers \Improved\Internal\type_cast_float_int
+ * @covers \Improved\Internal\type_cast_int_float
+ * @covers \Improved\Internal\type_cast_int_string
+ * @covers \Improved\Internal\type_cast_float_string
+ * @covers \Improved\Internal\type_cast_object_string
+ * @covers \Improved\Internal\type_cast_object_array
+ * @covers \Improved\Internal\type_cast_array_object
  */
-class TypeCoerceTest extends TestCase
+class TypeCastTest extends TestCase
 {
     public function validProvider()
     {
@@ -92,7 +92,7 @@ class TypeCoerceTest extends TestCase
     /**
      * @dataProvider castProvider
      */
-    public function testCoerce($var, $type, $expected)
+    public function testCast($var, $type, $expected)
     {
         $ret = i\type_cast($var, $type);
         $this->assertEquals($expected, $ret, gettype($var) . ':' . $type);
@@ -102,16 +102,16 @@ class TypeCoerceTest extends TestCase
     public function invalidProvider()
     {
         return [
-            ['foo', 'int', "Expected int, string given"],
-            ['1' . str_repeat('0', 100), 'int', "Expected int, string given"],
-            ['foo', 'float', "Expected float, string given"],
-            [10, 'boolean', "Expected boolean, integer given"],
-            [1.0e+100, 'int', "Expected int, float given"],
-            [['one', 'two'], 'object', "Expected object, array given"],
-            [['a' => 'one', 7 => 'two'], 'object', "Expected object, array given"],
-            [new \DateTime(), 'string', "Expected string, DateTime object given"],
-            [new \DateTime(), 'array', "Expected array, DateTime object given"],
-            [(object)[], 'Foo', "Expected Foo object, stdClass object given"],
+            ['foo', 'int', "Unable to cast to int, string given"],
+            ['1' . str_repeat('0', 100), 'int', "Unable to cast to int, string given"],
+            ['foo', 'float', "Unable to cast to float, string given"],
+            [10, 'boolean', "Unable to cast to boolean, integer given"],
+            [1.0e+100, 'int', "Unable to cast to int, float given"],
+            [['one', 'two'], 'object', "Unable to cast to object, array given"],
+            [['a' => 'one', 7 => 'two'], 'object', "Unable to cast to object, array given"],
+            [new \DateTime(), 'string', "Unable to cast to string, instance of DateTime given"],
+            [new \DateTime(), 'array', "Unable to cast to array, instance of DateTime given"],
+            [(object)[], 'Foo', "Unable to cast to instance of Foo, instance of stdClass given"],
         ];
     }
 
@@ -135,7 +135,7 @@ class TypeCoerceTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Lorem ipsum
      * @expectedExceptionCode 42
      */
@@ -145,7 +145,7 @@ class TypeCoerceTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Lorem ipsum string black
      * @expectedExceptionCode 42
      */
@@ -155,7 +155,7 @@ class TypeCoerceTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Lorem int ipsum string black
      * @expectedExceptionCode 42
      */
