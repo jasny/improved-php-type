@@ -9,18 +9,23 @@ namespace Improved\Internal;
  * @param mixed           $var
  * @param string|string[] $type
  * @param \Throwable      $throwable  Exception or Error
+ * @param array           $extraArgs  Additional args to be parsed into message
  * @return \Throwable
  */
-function type_check_error($var, $type, \Throwable $throwable): \Throwable
+function type_check_error($var, $type, \Throwable $throwable, array $extraArgs = []): \Throwable
 {
     if (strpos($throwable->getMessage(), '%') === false) {
         return $throwable;
     }
 
-    $expected = type_join_descriptions(is_scalar($type) ? [$type] : $type, ',', ' or ');
+    $args = array_merge(
+        [\Improved\type_describe($var)],
+        $extraArgs,
+        [type_join_descriptions(is_scalar($type) ? [$type] : $type, ',', ' or ')]
+    );
 
     $class = get_class($throwable);
-    $message = sprintf($throwable->getMessage(), \Improved\type_describe($var), $expected);
+    $message = sprintf($throwable->getMessage(), ...$args);
     $code = $throwable->getCode();
 
     return new $class($message, $code);

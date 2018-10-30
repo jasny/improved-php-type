@@ -115,4 +115,14 @@ class TypeCheckTest extends TestCase
         $exception = new \InvalidArgumentException('Lorem %2$s ipsum %1$s black', 42);
         i\type_check('foo', 'int', $exception);
     }
+
+
+    public function testTypeCheckErrorExtraArgs()
+    {
+        $exception = new \InvalidArgumentException('%2$s: %4$s ipsum %1$s (%3$d) black');
+        $result = i\Internal\type_check_error('foo', 'int', $exception, ['Not good', 22]);
+
+        $this->assertInstanceOf(\InvalidArgumentException::class, $result);
+        $this->assertEquals("Not good: int ipsum string (22) black", $result->getMessage());
+    }
 }
