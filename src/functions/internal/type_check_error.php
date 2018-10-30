@@ -17,13 +17,7 @@ function type_check_error($var, $type, \Throwable $throwable): \Throwable
         return $throwable;
     }
 
-    $typeDescs = array_map(function ($type) {
-        $prefix = (type_is_internal_func($type) !== null || substr($type, -9) === ' resource' ? '' : 'instance of ');
-        return $prefix . $type;
-    }, is_scalar($type) ? [$type] : $type);
-
-    $last = (string)array_pop($typeDescs);
-    $expected = (count($typeDescs) === 0 ? "" : join(', ', $typeDescs) . ' or ') . $last;
+    $expected = type_join_descriptions(is_scalar($type) ? [$type] : $type, ',', ' or ');
 
     $class = get_class($throwable);
     $message = sprintf($throwable->getMessage(), \Improved\type_describe($var), $expected);

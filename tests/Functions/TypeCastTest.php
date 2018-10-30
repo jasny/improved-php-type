@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Improved\type_cast
  * @covers \Improved\Internal\type_cast_var
  * @covers \Improved\Internal\type_check_error
+ * @covers \Improved\Internal\type_join_descriptions
  * @covers \Improved\Internal\type_cast_string_int
  * @covers \Improved\Internal\type_cast_string_float
  * @covers \Improved\Internal\type_cast_int_bool
@@ -20,6 +21,12 @@ use PHPUnit\Framework\TestCase;
  * @covers \Improved\Internal\type_cast_object_string
  * @covers \Improved\Internal\type_cast_object_array
  * @covers \Improved\Internal\type_cast_array_object
+ * @covers \Improved\Internal\type_cast_null_string
+ * @covers \Improved\Internal\type_cast_null_int
+ * @covers \Improved\Internal\type_cast_null_float
+ * @covers \Improved\Internal\type_cast_null_bool
+ * @covers \Improved\Internal\type_cast_null_array
+ * @covers \Improved\Internal\type_cast_null_object
  */
 class TypeCastTest extends TestCase
 {
@@ -32,8 +39,13 @@ class TypeCastTest extends TestCase
         return [
             [10, 'int'],
             [10, 'integer'],
+            [0.0, 'float'],
+            [0.0, 'double'],
             [true, 'bool'],
             [true, 'boolean'],
+            ['hello', 'string'],
+            ['hello', '?string'],
+            [null, '?string'],
             [[], 'array'],
             [(object)[], 'stdClass'],
             [$streamResource, 'resource'],
@@ -79,8 +91,16 @@ class TypeCastTest extends TestCase
             [-7.6, 'integer', -7],
             [-7.6, 'string', '-7.6'],
             [1.0e+100, 'string', '1.0E+100'],
+            [10, '?string', '10'],
+            [null, '?string', null],
             [false, 'int', 0],
             [true, 'int', 1],
+            [null, 'string', ''],
+            [null, 'int', 0],
+            [null, 'float', 0.0],
+            [null, 'bool', false],
+            [null, 'array', []],
+            [null, 'object', (object)[]],
             [['one' => 'I', 'two' => 'II'], 'object', (object)['one' => 'I', 'two' => 'II']],
             [['one' => 'I', 'two' => 'II'], \stdClass::class, (object)['one' => 'I', 'two' => 'II']],
             [$object, 'string', 'hello'],
@@ -107,6 +127,8 @@ class TypeCastTest extends TestCase
             ['foo', 'float', "Unable to cast to float, string given"],
             [10, 'boolean', "Unable to cast to boolean, integer given"],
             [1.0e+100, 'int', "Unable to cast to int, float given"],
+            [10, '?boolean', "Unable to cast to boolean, integer given"],
+            [null, 'Foo', "Unable to cast to instance of Foo, null given"],
             [['one', 'two'], 'object', "Unable to cast to object, array given"],
             [['a' => 'one', 7 => 'two'], 'object', "Unable to cast to object, array given"],
             [new \DateTime(), 'string', "Unable to cast to string, instance of DateTime given"],

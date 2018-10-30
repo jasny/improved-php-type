@@ -28,6 +28,7 @@
             "src/functions/internal/type_describe_type.php",
             "src/functions/internal/type_describe_value.php",
             "src/functions/internal/type_is_internal_func.php",
+            "src/functions/internal/type_join_descriptions.php",
             "src/functions/type_check.php",
             "src/functions/type_cast.php",
             "src/functions/type_describe.php",

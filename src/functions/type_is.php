@@ -12,11 +12,16 @@ namespace Improved;
 function type_is($var, $type): bool
 {
     $valid = false;
-    $types = is_scalar($type) ? [$type] : $type;
+    $types = is_array($type) ? $type : [$type];
 
-    foreach ($types as &$checkType) {
+    foreach ($types as $checkType) {
         if ($valid) {
             break;
+        }
+
+        if ($checkType[0] === '?' && $var === null) {
+            $valid = true;
+            continue;
         }
 
         if (substr($checkType, -9) === ' resource') {
@@ -24,6 +29,7 @@ function type_is($var, $type): bool
             continue;
         }
 
+        $checkType = ltrim($checkType, '?');
         $fn = Internal\type_is_internal_func($checkType);
         $valid = isset($fn) ? (bool)$fn($var) : is_a($var, $checkType);
     }

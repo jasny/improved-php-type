@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Improved\type_check
  * @covers \Improved\Internal\type_check_error
+ * @covers \Improved\Internal\type_join_descriptions
  */
 class TypeCheckTest extends TestCase
 {
@@ -25,6 +26,9 @@ class TypeCheckTest extends TestCase
             [[], 'array'],
             [(object)[], 'stdClass'],
             [10, ['int', 'boolean']],
+            ['hello', 'string'],
+            ['hello', '?string'],
+            [null, '?string'],
             [$streamResource, 'resource'],
             [$streamResource, 'stream resource'],
             [$streamResource, ['stream resource', 'gd resource']],
@@ -52,6 +56,7 @@ class TypeCheckTest extends TestCase
             [10, 'boolean', "Expected boolean, integer given"],
             ['foo', 'int', "Expected int, string given"],
             ['foo', ['int', 'boolean'], "Expected int or boolean, string given"],
+            [10, '?string', "Expected string or null, integer given"],
             [(object)[], 'Foo', "Expected instance of Foo, instance of stdClass given"],
             [$streamResource, 'string', "Expected string, stream resource given"],
             [$streamResource, 'gd resource', "Expected gd resource, stream resource given"],

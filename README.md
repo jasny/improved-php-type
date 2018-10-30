@@ -37,6 +37,8 @@ As type you can specify any internal type, including `callable` and `object`, a 
 
 Typed arrays or iteratators are **not** supported, as it would require looping through them.
 
+A question mark can be added to a class to accept null, eg `"?string"` is similar to using `["string", "null"]`.
+
 ### type_check
 
     mixed type_check(mixed $var, string|string[] $type, Throwable $throwable = null)
@@ -65,8 +67,10 @@ $date = i\type_check(get_some_date(), DateTimeInterface::class);
 $name = i\type_check($user->getName(), 'string');
 $number = i\type_check(get_distance(), ['int', 'float']);
 
-$foor = i\type_check(do_something(), Foo::class, new UnexpectedException('Wanted %2$s, not %1$s'));
+$foo = i\type_check(do_something(), Foo::class, new UnexpectedException('Wanted %2$s, not %1$s'));
 ```
+
+A question mark can be added to a class to accept null, eg `"?string"` is similar to using `["string", "null"]`.
 
 ### type_cast
 
@@ -90,9 +94,14 @@ This function is similar to `type_check`, with the difference that is will cast 
 | `array`  | `object` \ `stdClass` | if array has no numeric keys             |
 | `object` | `string`              | if only has `__toString()` method        |
 | `object` | `array` \ `iterable`  | only `stdClass` objects                  |
+| `null`   | any scalar            |                                          |
+| `null`   | `array`               |                                          |
+| `null`   | `object` \ `stdClass` |                                          |
 
 In contrary to `type_is` and `type_check`, only one type may be specified.
 
+A question mark can be added to a class to accept null, eg `?string` will try to cast everything to a string except
+`null`.
 
 ### type_describe
 

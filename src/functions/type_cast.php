@@ -22,5 +22,9 @@ function type_cast($var, $type, ?\Throwable $throwable = null)
         return $casted;
     }
 
-    throw Internal\type_check_error($var, $type, $throwable ?? new \TypeError('Unable to cast to %2$s, %1$s given'));
+    throw Internal\type_check_error(
+        $var,
+        ltrim($type, '?'),
+        $throwable ?? new \TypeError('Unable to cast to %2$s, %1$s given')
+    );
 }

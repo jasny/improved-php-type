@@ -23,7 +23,9 @@ function type_cast_var($var, $type)
         'iterable' => 'array'
     ];
 
-    $type = $aliases[strtolower(ltrim($type, '/'))] ?? ltrim($type, '/');
+    $type = strtolower(ltrim($type, '?\\'));
+    $type = $aliases[$type] ?? $type;
+
     $varType = $aliases[gettype($var)] ?? gettype($var);
 
     $fn = __NAMESPACE__ . "\\type_cast_{$varType}_{$type}";
@@ -33,6 +35,8 @@ function type_cast_var($var, $type)
 
 /**
  * @internal
+ * @param string $var
+ * @return int|null
  */
 function type_cast_string_int(string $var): ?int
 {
@@ -41,6 +45,8 @@ function type_cast_string_int(string $var): ?int
 
 /**
  * @internal
+ * @param string $var
+ * @return float|null
  */
 function type_cast_string_float(string $var): ?float
 {
@@ -49,6 +55,8 @@ function type_cast_string_float(string $var): ?float
 
 /**
  * @internal
+ * @param int $var
+ * @return bool|null
  */
 function type_cast_int_bool(int $var): ?bool
 {
@@ -57,6 +65,8 @@ function type_cast_int_bool(int $var): ?bool
 
 /**
  * @internal
+ * @param bool $var
+ * @return int
  */
 function type_cast_bool_int(bool $var): int
 {
@@ -65,6 +75,8 @@ function type_cast_bool_int(bool $var): int
 
 /**
  * @internal
+ * @param float $var
+ * @return int|null
  */
 function type_cast_float_int(float $var): ?int
 {
@@ -73,6 +85,8 @@ function type_cast_float_int(float $var): ?int
 
 /**
  * @internal
+ * @param int $var
+ * @return float
  */
 function type_cast_int_float(int $var): float
 {
@@ -81,6 +95,8 @@ function type_cast_int_float(int $var): float
 
 /**
  * @internal
+ * @param int $var
+ * @return string
  */
 function type_cast_int_string(int $var): string
 {
@@ -89,6 +105,8 @@ function type_cast_int_string(int $var): string
 
 /**
  * @internal
+ * @param float $var
+ * @return string
  */
 function type_cast_float_string(float $var): string
 {
@@ -117,8 +135,64 @@ function type_cast_object_array($var): ?array
 
 /**
  * @internal
+ * @param array $var
+ * @return null|\stdClass
  */
 function type_cast_array_object(array $var): ?\stdClass
 {
     return array_filter(array_keys($var), 'is_int') === [] ? (object)$var : null;
+}
+
+/**
+ * @internal
+ * @return string
+ */
+function type_cast_null_string(): string
+{
+    return '';
+}
+
+/**
+ * @internal
+ * @return int
+ */
+function type_cast_null_int(): int
+{
+    return 0;
+}
+
+/**
+ * @internal
+ * @return float
+ */
+function type_cast_null_float(): float
+{
+    return 0.0;
+}
+
+/**
+ * @internal
+ * @return bool
+ */
+function type_cast_null_bool(): bool
+{
+    return false;
+}
+
+/**
+ * @internal
+ * @return array
+ */
+function type_cast_null_array(): array
+{
+    return [];
+}
+
+/**
+ * @internal
+ * @return \stdClass
+ */
+function type_cast_null_object(): \stdClass
+{
+    return (object)[];
 }
