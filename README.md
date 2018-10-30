@@ -48,12 +48,10 @@ Validate that a variable has a specific type. The same types cas in `type_is()` 
 Typed arrays or iteratators are **not** supported. Use
 [`iterable_check_type`](https://github.com/improved-php-library/iterable#checktype) instead.
 
-By default a `TypeError` is thrown. Optionally you can pass an exception instead.
+By default a `TypeError` is thrown. Optionally you can pass an exception instead. 
 
-The message may contain a `%s`, which is replaced by the type description of `$var`.
-
-It optionally may contain a second `%s` which is replaced by the description of the required type. Use sprintf
-positioning to use the required type first.
+The message may contain a `%s`, which is replaced by the type description of `$var`. It optionally may contain a second
+`%s` which is replaced by the description of the required type. Use sprintf positioning to use the required type first.
 
 If the message or the exception or error contains a `%`, a new throwable of the same type is created with the filled
 out message.
