@@ -8,13 +8,22 @@ namespace Improved\Internal;
  *
  * @param mixed           $var
  * @param string|string[] $type
- * @param \Throwable      $throwable  Exception or Error
- * @param array           $extraArgs  Additional args to be parsed into message
+ * @param \Throwable|null $throwable   Exception or Error
+ * @param string          $defaultMsg  Default error message
+ * @param array           $extraArgs   Additional args to be parsed into message
  * @return \Throwable
  */
-function type_check_error($var, $type, \Throwable $throwable, array $extraArgs = []): \Throwable
+function type_check_error(
+    $var,
+    $type,
+    ?\Throwable $throwable = null,
+    string $defaultMsg = 'Expected %2$s, %1$s given',
+    array $extraArgs = []
+): \Throwable
 {
-    if (strpos($throwable->getMessage(), '%') === false) {
+    $message = (isset($throwable) ? $throwable->getMessage() : '') ?: $defaultMsg;
+
+    if (strpos($message, '%') === false) {
         return $throwable;
     }
 
@@ -24,9 +33,8 @@ function type_check_error($var, $type, \Throwable $throwable, array $extraArgs =
         [type_join_descriptions(is_scalar($type) ? [$type] : $type, ',', ' or ')]
     );
 
-    $class = get_class($throwable);
-    $message = sprintf($throwable->getMessage(), ...$args);
-    $code = $throwable->getCode();
+    $class = isset($throwable) ? get_class($throwable) : \TypeError::class;
+    $code = isset($throwable) ? $throwable->getCode() : 0;
 
-    return new $class($message, $code);
+    return new $class(sprintf($message ?: $message, ...$args), $code);
 }

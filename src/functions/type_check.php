@@ -14,7 +14,7 @@ function type_check($var, $type, ?\Throwable $throwable = null)
 {
     if (!type_is($var, $type)) {
         /** @var \TypeError $error */
-        $error = Internal\type_check_error($var, $type, $throwable ?? new \TypeError('Expected %2$s, %1$s given'));
+        $error = Internal\type_check_error($var, $type, $throwable);
         throw $error;
     }
 

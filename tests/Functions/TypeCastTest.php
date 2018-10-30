@@ -162,6 +162,15 @@ class TypeCastTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unable to cast to int, string(3) "foo" given
+     */
+    public function testWithExceptionClass()
+    {
+        i\type_cast('foo', 'int', new \InvalidArgumentException());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Lorem ipsum
      * @expectedExceptionCode 42
      */

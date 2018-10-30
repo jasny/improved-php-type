@@ -16,10 +16,8 @@ function type_cast($var, $type, ?\Throwable $throwable = null)
     $casted = $valid ? $var : Internal\type_cast_var($var, $type);
 
     if (!$valid && !isset($casted)) {
-        $throwable = $throwable ?? new \TypeError('Unable to cast to %2$s, %1$s given');
-
         /** @var \TypeError $error */
-        $error = Internal\type_check_error($var, ltrim($type, '?'), $throwable);
+        $error = Internal\type_check_error($var, ltrim($type, '?'), $throwable, 'Unable to cast to %2$s, %1$s given');
         throw $error;
     }
 
