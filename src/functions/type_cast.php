@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection PhpDocMissingThrowsInspection */ declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Improved;
 
@@ -17,7 +17,10 @@ function type_cast($var, $type, ?\Throwable $throwable = null)
 
     if (!$valid && !isset($casted)) {
         $throwable = $throwable ?? new \TypeError('Unable to cast to %2$s, %1$s given');
-        throw Internal\type_check_error($var, ltrim($type, '?'), $throwable);
+
+        /** @var \TypeError $error */
+        $error = Internal\type_check_error($var, ltrim($type, '?'), $throwable);
+        throw $error;
     }
 
     return $casted;

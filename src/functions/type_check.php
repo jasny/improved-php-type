@@ -9,12 +9,13 @@ namespace Improved;
  * @param string|string[] $type
  * @param \Throwable|null $throwable  Exception or Error
  * @return mixed
- * @throws \Throwable
  */
 function type_check($var, $type, ?\Throwable $throwable = null)
 {
     if (!type_is($var, $type)) {
-        throw Internal\type_check_error($var, $type, $throwable ?? new \TypeError('Expected %2$s, %1$s given'));
+        /** @var \TypeError $error */
+        $error = Internal\type_check_error($var, $type, $throwable ?? new \TypeError('Expected %2$s, %1$s given'));
+        throw $error;
     }
 
     return $var;
