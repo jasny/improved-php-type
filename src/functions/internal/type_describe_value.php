@@ -15,7 +15,7 @@ function type_describe_value($var)
 
     switch ($type) {
         case 'boolean':
-            return 'boolean(' . ($var ? 'true' : 'false') . ')';
+            return 'boolean(' . ($var === true ? 'true' : 'false') . ')';
         case 'integer':
             return "integer($var)";
         case 'double':

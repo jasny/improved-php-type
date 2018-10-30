@@ -19,7 +19,7 @@ function type_join_descriptions(array $types, string $glue, string $lastGlue)
         $orNull = $orNull || $rawType[0] === '?';
         $type = ltrim($rawType, '?');
 
-        $internal = TYPE_INTERNAL[$type] ?? false !== false || substr($type, -9) === ' resource';
+        $internal = (TYPE_INTERNAL[$type] ?? false) !== false || substr($type, -9) === ' resource';
 
         return ($internal ? '' : 'instance of ') . ltrim($type, '?');
     }, $types);
