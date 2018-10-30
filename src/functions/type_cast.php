@@ -12,19 +12,13 @@ namespace Improved;
  */
 function type_cast($var, $type, ?\Throwable $throwable = null)
 {
-    if (type_is($var, $type)) {
-        return $var;
+    $valid = type_is($var, $type);
+    $casted = $valid ? $var : Internal\type_cast_var($var, $type);
+
+    if (!$valid && !isset($casted)) {
+        $throwable = $throwable ?? new \TypeError('Unable to cast to %2$s, %1$s given');
+        throw Internal\type_check_error($var, ltrim($type, '?'), $throwable);
     }
 
-    $casted = Internal\type_cast_var($var, $type);
-
-    if (isset($casted)) {
-        return $casted;
-    }
-
-    throw Internal\type_check_error(
-        $var,
-        ltrim($type, '?'),
-        $throwable ?? new \TypeError('Unable to cast to %2$s, %1$s given')
-    );
+    return $casted;
 }
