@@ -19,7 +19,7 @@ function type_check_error($var, $type, \Throwable $throwable, array $extraArgs =
     }
 
     $args = array_merge(
-        [\Improved\type_describe($var)],
+        [\Improved\type_describe($var, true)],
         $extraArgs,
         [type_join_descriptions(is_scalar($type) ? [$type] : $type, ',', ' or ')]
     );

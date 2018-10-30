@@ -18,9 +18,9 @@ class TypeDescribeTest extends TestCase
         fclose($closedResource);
         return [
             [null, 'null', 'null'],
-            [10, 'integer', 'integer(10)'],
+            [10, 'integer', 'int(10)'],
             [10.2, 'float', 'float(10.2)'],
-            [true, 'boolean', 'boolean(true)'],
+            [true, 'boolean', 'bool(true)'],
             ["hello", 'string', 'string(5) "hello"'],
             [str_repeat('x', 100), 'string', 'string(100) "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"...'],
             [['one', 'two', 'three'], 'array', 'array(3)'],

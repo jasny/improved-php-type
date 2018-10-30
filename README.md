@@ -103,7 +103,7 @@ A question mark can be added to a class to accept null, eg `?string` will try to
 
 ### type_describe
 
-    string type_describe(mixed $var)
+    string type_describe(mixed $var, bool $detailed = false)
 
 Get the type of a variable in a descriptive way to using in an (error) message.
 
@@ -114,7 +114,17 @@ Objects are have their class name, appended with `object`. For resources the res
 `resource`.
 
 ```php
-type_describe('hello'); // string
-type_describe(STDIN); // stream resource
-type_describe(new DateTime()); // DateTime object
+type_describe('hello');        // string
+type_describe(22);             // integer
+type_describe(STDIN);          // stream resource
+type_describe(new DateTime()); // instance of DateTime
+```
+
+The detailed option describes both the value an type. This is similar to what is used in the error messages of
+`type_check` and `type_cast`.
+
+```php
+type_describe('hello');         // string(5) "hello"
+type_describe(22);              // int(22)
+type_describe(["a", "b", "c"]); // array(3)
 ```

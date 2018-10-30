@@ -52,17 +52,17 @@ class TypeCheckTest extends TestCase
         fclose($closedResource);
 
         return [
-            [0, 'boolean', "Expected boolean, integer given"],
-            [10, 'boolean', "Expected boolean, integer given"],
-            ['foo', 'int', "Expected int, string given"],
-            ['foo', ['int', 'boolean'], "Expected int or boolean, string given"],
-            [10, '?string', "Expected string or null, integer given"],
-            [(object)[], 'Foo', "Expected instance of Foo, instance of stdClass given"],
-            [$streamResource, 'string', "Expected string, stream resource given"],
-            [$streamResource, 'gd resource', "Expected gd resource, stream resource given"],
-            [$streamResource, ['int', 'gd resource'], "Expected int or gd resource, stream resource given"],
-            [$streamResource, 'stream', "Expected instance of stream, stream resource given"],
-            [$closedResource, 'string', "Expected string, resource (closed) given"]
+            [0, 'boolean', 'Expected boolean, int(0) given'],
+            [10, 'boolean', 'Expected boolean, int(10) given'],
+            ['foo', 'int', 'Expected int, string(3) "foo" given'],
+            ['foo', ['int', 'boolean'], 'Expected int or boolean, string(3) "foo" given'],
+            [10, '?string', 'Expected string or null, int(10) given'],
+            [(object)[], 'Foo', 'Expected instance of Foo, instance of stdClass given'],
+            [$streamResource, 'string', 'Expected string, stream resource given'],
+            [$streamResource, 'gd resource', 'Expected gd resource, stream resource given'],
+            [$streamResource, ['int', 'gd resource'], 'Expected int or gd resource, stream resource given'],
+            [$streamResource, 'stream', 'Expected instance of stream, stream resource given'],
+            [$closedResource, 'string', 'Expected string, resource (closed) given']
         ];
     }
 
@@ -97,7 +97,7 @@ class TypeCheckTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Lorem ipsum string black
+     * @expectedExceptionMessage Lorem ipsum string(3) "foo" black
      * @expectedExceptionCode 42
      */
     public function testWithExceptionMessage()
@@ -107,7 +107,7 @@ class TypeCheckTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Lorem int ipsum string black
+     * @expectedExceptionMessage Lorem int ipsum string(3) "foo" black
      * @expectedExceptionCode 42
      */
     public function testWithExceptionMessageType()
@@ -119,10 +119,10 @@ class TypeCheckTest extends TestCase
 
     public function testTypeCheckErrorExtraArgs()
     {
-        $exception = new \InvalidArgumentException('%2$s: %4$s ipsum %1$s (%3$d) black');
+        $exception = new \InvalidArgumentException('%2$s: %4$s ipsum %1$s / %3$d black');
         $result = i\Internal\type_check_error('foo', 'int', $exception, ['Not good', 22]);
 
         $this->assertInstanceOf(\InvalidArgumentException::class, $result);
-        $this->assertEquals("Not good: int ipsum string (22) black", $result->getMessage());
+        $this->assertEquals('Not good: int ipsum string(3) "foo" / 22 black', $result->getMessage());
     }
 }

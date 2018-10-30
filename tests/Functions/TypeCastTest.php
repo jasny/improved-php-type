@@ -122,18 +122,22 @@ class TypeCastTest extends TestCase
     public function invalidProvider()
     {
         return [
-            ['foo', 'int', "Unable to cast to int, string given"],
-            ['1' . str_repeat('0', 100), 'int', "Unable to cast to int, string given"],
-            ['foo', 'float', "Unable to cast to float, string given"],
-            [10, 'boolean', "Unable to cast to boolean, integer given"],
-            [1.0e+100, 'int', "Unable to cast to int, float given"],
-            [10, '?boolean', "Unable to cast to boolean, integer given"],
-            [null, 'Foo', "Unable to cast to instance of Foo, null given"],
-            [['one', 'two'], 'object', "Unable to cast to object, array given"],
-            [['a' => 'one', 7 => 'two'], 'object', "Unable to cast to object, array given"],
-            [new \DateTime(), 'string', "Unable to cast to string, instance of DateTime given"],
-            [new \DateTime(), 'array', "Unable to cast to array, instance of DateTime given"],
-            [(object)[], 'Foo', "Unable to cast to instance of Foo, instance of stdClass given"],
+            ['foo', 'int', 'Unable to cast to int, string(3) "foo" given'],
+            [
+                '1' . str_repeat('0', 100),
+                'int',
+                'Unable to cast to int, string(101) "10000000000000000000000000000"... given'
+            ],
+            ['foo', 'float', 'Unable to cast to float, string(3) "foo" given'],
+            [10, 'boolean', 'Unable to cast to boolean, int(10) given'],
+            [1.0e+100, 'int', 'Unable to cast to int, float(1.0E+100) given'],
+            [10, '?boolean', 'Unable to cast to boolean, int(10) given'],
+            [null, 'Foo', 'Unable to cast to instance of Foo, null given'],
+            [['one', 'two'], 'object', 'Unable to cast to object, array(2) given'],
+            [['a' => 'one', 7 => 'two'], 'object', 'Unable to cast to object, array(2) given'],
+            [new \DateTime(), 'string', 'Unable to cast to string, instance of DateTime given'],
+            [new \DateTime(), 'array', 'Unable to cast to array, instance of DateTime given'],
+            [(object)[], 'Foo', 'Unable to cast to instance of Foo, instance of stdClass given'],
         ];
     }
 
@@ -168,7 +172,7 @@ class TypeCastTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Lorem ipsum string black
+     * @expectedExceptionMessage Lorem ipsum string(3) "foo" black
      * @expectedExceptionCode 42
      */
     public function testWithExceptionMessage()
@@ -178,7 +182,7 @@ class TypeCastTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Lorem int ipsum string black
+     * @expectedExceptionMessage Lorem int ipsum string(3) "foo" black
      * @expectedExceptionCode 42
      */
     public function testWithExceptionMessageType()
