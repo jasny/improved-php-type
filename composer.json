@@ -22,7 +22,6 @@
     },
     "autoload": {
         "files": [
-            "src/functions-const.php",
             "src/functions/internal/type_cast_var.php",
             "src/functions/internal/type_check_error.php",
             "src/functions/internal/type_describe_type.php",
