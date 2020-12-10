@@ -34,9 +34,6 @@
             "src/functions/type_is.php"
         ]
     },
-    "provides": {
-        "ext-improved_type": "*"
-    },
     "autoload-dev": {
         "psr-4": {
             "Improved\\Tests\\": "tests/"
