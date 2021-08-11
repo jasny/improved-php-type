@@ -2,7 +2,7 @@
 
 # type handling
 
-![PHP](https://github.com/improved-php-library/iterable/type/PHP/badge.svg)
+[![PHP](https://github.com/improved-php-library/type/actions/workflows/php.yml/badge.svg)](https://github.com/improved-php-library/type/actions/workflows/php.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/improved-php-library/type/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/improved-php-library/type/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/improved-php-library/type/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/improved-php-library/type/?branch=master)
 [![Packagist Stable Version](https://img.shields.io/packagist/v/improved/type.svg)](https://packagist.org/packages/improved/type)
